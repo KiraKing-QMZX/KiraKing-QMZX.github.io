@@ -72,24 +72,26 @@
     align-items: flex-end;
     justify-content: flex-end;
     color: rgba(228, 123, 53, 0.2);
+      margin-top: 50px; /* 新增 */
   }
-  .taskbar{
-width:100%;
-height:55px;
-position: absolute;
-bottom:0;
-background-color: rgba(0, 0, 0, 0.2);
-display: flex;
-vertical-align:middle;
-  }
- #currentTime{
+ .taskbar {
+  width: 100%;
+  height: 70px; /* 修改这里 */
   position: absolute;
-  right:5px;
-  top:18px;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+  display: flex;
+  vertical-align: middle;
+}
+
+#currentTime {
+  position: absolute;
+  right: 5px;
+  top: 25px; /* 修改这里 */
   font-weight: 400;
   user-select: none;
-  color:azure;
- }
+  color: azure;
+}
  /*新增*/
  .dialog {
     width: 300px;
