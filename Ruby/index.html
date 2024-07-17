@@ -7,21 +7,27 @@
 <style>
 	<link rel="shortcut icon" href="./res/favicon.ico">
   body {
+height: 100vh;
     display: flex;
+overflow-y:hidden;
     justify-content: center;
     align-items: center;
-    height: 100vh;
     background-color: #ddd;
     overflow: hidden;
     user-select: none;
     -webkit-user-select: none;
   }
+html{
+overflow-y:hidden;
+}
   .desktop {
     position: relative;
     width: 100%;
     height: 100%;
     background-color: white;
     border: 1px solid #ccc;
+overflow-y:hidden;
+
     border-radius: 4px;
     overflow: hidden;
     background-image:url("./res/A59A2546B288AD1EAD6A1BD655B09718.jpg");
@@ -45,7 +51,7 @@
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
   }
   .icons_set{
-
+    margin-top:-50px;
     height:100%;
 
   }
@@ -87,7 +93,7 @@
 .taskbar {
   width: 100%;
   height: 48px; /* 修改这里 */
-margin-bottom:75px;
+margin-bottom:150px;
   position: absolute;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.2);
@@ -188,7 +194,7 @@ filter: brightness(200%);
             background-color: #f1f1f1;
             border: 1px solid #d3d3d3;
             text-align: center;
-	    margin-top:300px;
+	    margin-top:100px;
             margin-left:50px;
             position: absolute;
         }
@@ -209,7 +215,6 @@ filter: brightness(200%);
 </head>
 <body>
 <div class="desktop">
-
   <div class="icons_set">
  <a href="https://space.bilibili.com/3546610466294509/">  
   <div class="icon" draggable="false">
@@ -232,8 +237,8 @@ filter: brightness(200%);
   </div></a></div>
 <div id="mydiv">
   <div id="mydivheader" draggable="false">鹿彼_Ruby 天下第一！(连续拖拽几次看看)</div>
-    <a href="https://space.bilibili.com/3546610466294509/"> <img src="res/BC2B67E19CE17E114E1DA88A7EA9EDE0.png" alt="海报2" id="myimage"></a> 
-	 <a href="https://live.bilibili.com/31823684"> <img src="res/剪影.png" alt="剪影" id="myimage"></a> 
+    <div><a href="https://space.bilibili.com/3546610466294509/"> <img src="res/BC2B67E19CE17E114E1DA88A7EA9EDE0.png" alt="海报2" id="myimage"></a> 
+ </div>
 </div>
   <div class="watermark" draggable="false">
     <h2>鹿彼_Ruby</h2>
@@ -434,6 +439,20 @@ function dragElement(elmnt) {
 	    document.getElementById("hideButton").onclick = function() {
         document.getElementById("draggable").style.display = "none";
     }
+//New_AutoJudge
+function setPageHeight() {
+  // 获取窗口的高度
+  var windowHeight = window.innerHeight;
+  
+  // 设置body的高度
+  document.body.style.height = windowHeight + 'px';
+}
+ 
+// 当窗口大小改变时，重新设置页面高度
+window.onresize = setPageHeight;
+ 
+// 页面初始化时，设置页面高度
+setPageHeight();
   </script>
 
 
