@@ -1,4 +1,4 @@
-# <center>清茗盏香的小站 - 基于 BenjaminPan61618 </center>
+# <center>清茗盏香的小站 - 基于 BenjaminPan61618 的个人主页 </center>
 ## 注意！
 ### 不要直接把内容同步到 BenjaminPan61618.github.io ！
 ### 不要直接把内容同步到 BenjaminPan61618.github.io ！
