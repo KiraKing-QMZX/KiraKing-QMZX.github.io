@@ -1,2 +1,0 @@
-# Insider!
-## Terminate the transaction!
