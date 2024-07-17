@@ -234,7 +234,7 @@ filter: brightness(200%);
   </div>
 
   <div class="dialog" id="draggable">
-    <div class="title-bar"><span draggable="false">Hello, World</span><button draggable="false" type="button">X</button></div>
+    <div class="title-bar"><span draggable="false">Hello, World</span><button draggable="false"  id="hideButton" type="button">X</button></div>
     <p class="draggable" draggable="false">  <a href="https://live.bilibili.com/31823684">关注 鹿彼_Ruby 喵.</a></p>
     <p  class="draggable" draggable="false" >  <a href="https://live.bilibili.com/31823684">关注 鹿彼_Ruby 谢谢喵！</a></p>
   </div>
@@ -387,6 +387,10 @@ filter: brightness(200%);
             document.onmouseup = null;
             document.onmousemove = null;
         }
+    }
+	  // New
+	    document.getElementById("hideButton").onclick = function() {
+        document.getElementById("draggable").style.display = "none";
     }
   </script>
 
