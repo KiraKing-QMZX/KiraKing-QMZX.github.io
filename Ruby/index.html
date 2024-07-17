@@ -25,10 +25,10 @@
     background-image:url("./res/A59A2546B288AD1EAD6A1BD655B09718.jpg");
     background-repeat: no-repeat;
     background-size: cover;
-     display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  align-content: flex-start;
+     display: grid;
+  grid-wrap: wrap;
+  justify-content: start;
+  align-content:start;
   padding-bottom: 90px;
   flex-direction: column;
   padding-top:50px; /* 修改这里 */
@@ -43,8 +43,9 @@
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
   }
   .icons_set{
-  margin-top:15px;
+  margin-top:80px;
     height:100%;
+
   }
   .icon img {
     width: 48px;
@@ -76,22 +77,24 @@
     align-items: flex-end;
     justify-content: flex-end;
     color: rgba(228, 123, 53, 0.2);
-      margin-top: 50px; /* 新增 */
+     margin-left:100px;
+     margin-botton:100px;
   }
 .taskbar {
   width: 100%;
-  height: 70px; /* 修改这里 */
+  height: 48px; /* 修改这里 */
   position: absolute;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.2);
   display: flex;
   vertical-align: middle;
+z-index:15;
 }
 
 #currentTime {
   position: absolute;
-  right: 5px;
-  top: 25px; /* 修改这里 */
+  right: 10px;
+  top: 15px; /* 修改这里 */
   font-weight: 400;
   user-select: none;
   color: azure;
@@ -105,6 +108,7 @@
     font-family: 'MS Sans Serif', Geneva, sans-serif; /* 使用MS Sans Serif字体 */
     color: #000; /* 黑色文本 */
     text-align: left; /* 左对齐文本 */
+  margin-top:150px;
 }
 
 .draggable {
@@ -168,34 +172,36 @@ margin-bottom: 25px;
   color:#000;
   text-decoration: none;
 }
-#mydiv {
-    position: absolute;
-    z-index: 9;
-    background-color: #f1f1f1;
-    border: 1px solid #d3d3d3;
-    text-align: center;
+.drawer{
+filter: brightness(200%);
 }
+ #mydiv {
+            z-index: 9;
+            background-color: #f1f1f1;
+            border: 1px solid #d3d3d3;
+            text-align: center;
+	    margin-top:300px;
+            margin-left:50px;
+            position: absolute;
+        }
 
-#mydivheader {
-    padding: 10px;
-    cursor: move;
-    z-index: 10;
-    background-color: #fdd2fc;
-    color: #fff;
-}
-#myimage {
-    max-width: 30%;
-}
+        #mydivheader {
+            padding: 10px;
+            cursor: move;
+            z-index: 10;
+            background-color: #fdd2fc;
+            color: #fff;
+        }
 
+        #myimage {
+            max-width: 50%;
+        }
    /*新增*/
 </style>
 </head>
 <body>
 <div class="desktop">
-  <div id="mydiv">
-  <div id="mydivheader" draggable="false">鹿彼_Ruby 天下第一！(按住鼠标拖拽)</div>
-    <a href="https://live.bilibili.com/31823684"> <img src="res/BC2B67E19CE17E114E1DA88A7EA9EDE0.png" alt="海报2" id="myimage"></a> 
-</div>
+
   <div class="icons_set">
  <a href="https://live.bilibili.com/31823684">  
   <div class="icon" draggable="false">
@@ -216,6 +222,10 @@ margin-bottom: 25px;
    <a href="https://live.bilibili.com/31823684"> <div class="icon" draggable="false">
     <img src="res/default-folder.svg" alt="Icon"><span>新文件夹</span>
   </div></a></div>
+<div id="mydiv">
+  <div id="mydivheader" draggable="false">鹿彼_Ruby 天下第一！(按住鼠标拖拽)</div>
+    <a href="https://live.bilibili.com/31823684"> <img src="res/BC2B67E19CE17E114E1DA88A7EA9EDE0.png" alt="海报2" id="myimage"></a> 
+</div>
   <div class="watermark" draggable="false">
     <h2>鹿彼_Ruby</h2>
     <h3>元气善良美好活泼开朗天才少女</h3>
@@ -237,7 +247,7 @@ margin-bottom: 25px;
     </ul>
   </div>
   <div class="taskbar">
-    <div class="start" id="start-button"><img alt="" src="res/view-grid-symbolic.svg"></div>
+    <div class="start" id="start-button"><img alt="" class="drawer" src="res/view-grid-symbolic.svg"></div>
     <div id="currentTime"></div>
   </div>
   <script>
@@ -324,43 +334,58 @@ margin-bottom: 25px;
 });
 //新
 // JavaScript
-dragElement(document.getElementById("mydiv"));
+     dragElement(document.getElementById("mydiv"));
 
-function dragElement(elmnt) {
-    let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+    function dragElement(elmnt) {
+        var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+        var initialX = 0, initialY = 0;
+        if (document.getElementById(elmnt.id + "header")) {
+            // if present, the header is where you move the DIV from:
+            document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+        } else {
+            // otherwise, move the DIV from anywhere inside the DIV:
+            elmnt.onmousedown = dragMouseDown;
+        }
 
-    if (document.getElementById(elmnt.id + "header")) {
-        document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
-    } else {
-        elmnt.onmousedown = dragMouseDown;
+        function dragMouseDown(e) {
+            e = e || window.event;
+            e.preventDefault();
+            // get the mouse cursor position at startup:
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            initialX = elmnt.offsetLeft;
+            initialY = elmnt.offsetTop;
+            document.onmouseup = closeDragElement;
+            // call a function whenever the cursor moves:
+            document.onmousemove = elementDrag;
+        }
+
+        function elementDrag(e) {
+            e = e || window.event;
+            e.preventDefault();
+            // calculate the new cursor position:
+            pos1 = pos3 - e.clientX;
+            pos2 = pos4 - e.clientY;
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            // set the element's new position:
+            var newTop = initialY - pos2;
+            var newLeft = initialX - pos1;
+            // Ensure the element stays within the window bounds:
+            if (newTop >= 0 && newTop <= window.innerHeight - elmnt.offsetHeight) {
+                elmnt.style.top = newTop + "px";
+            }
+            if (newLeft >= 0 && newLeft <= window.innerWidth - elmnt.offsetWidth) {
+                elmnt.style.left = newLeft + "px";
+            }
+        }
+
+        function closeDragElement() {
+            // stop moving when mouse button is released:
+            document.onmouseup = null;
+            document.onmousemove = null;
+        }
     }
-
-    function dragMouseDown(e) {
-        e = e || window.event;
-        e.preventDefault();
-        pos3 = e.clientX;
-        pos4 = e.clientY;
-        document.onmouseup = closeDragElement;
-        document.onmousemove = elementDrag;
-    }
-
-    function elementDrag(e) {
-        e = e || window.event;
-        e.preventDefault();
-        pos1 = pos3 - e.clientX;
-        pos2 = pos4 - e.clientY;
-        pos3 = e.clientX;
-        pos4 = e.clientY;
-        elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-        elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-    }
-
-    function closeDragElement() {
-        document.onmouseup = null;
-        document.onmousemove = null;
-    }
-}
-
   </script>
 
 
