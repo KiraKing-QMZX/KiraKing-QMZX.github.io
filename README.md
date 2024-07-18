@@ -14,3 +14,10 @@ GPL V3 许可协议
 
 
 GPL V3 License
+
+
+鸣谢：
+哔哩哔哩 马说好伯乐/次的伯乐
+BenjaminPan61618
+Microsoft Copilot
+百度 文心一言
