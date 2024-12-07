@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Demo</title>
+    <!-- 引入Vue.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <p class="game_title">{{gameTitle}}</p>
+      <div class="game_content">
+        <div class="config_dom">
+          <p @click="showConfig=!showConfig" class="config_btn">
+            {{showConfig?'隐藏配置':'展开配置'}}
+          </p>
+          <div v-show="showConfig" class="config_content">
+            <p class="config_label">组数：</p>
+            <input
+              type="text"
+              v-model="groupNum"
+              placeholder="请输入比赛分组数"
+              class="config_input"
+            />
+            <p class="config_label">每组玩家数：</p>
+            <input
+              type="text"
+              v-model="groupSize"
+              placeholder="请输入每组多少玩家"
+              class="config_input"
+            />
+          </div>
+          <div></div>
+        </div>
+        <div class="input_group">
+          <div class="input_dom">
+            <div
+              v-for="(item, index) in groupNum * groupSize"
+              :key="index"
+              class="player_inputs"
+            >
+              <p class="input_label">
+                <svg
+                  style="margin: 0 0 -2px 0"
+                  t="1733564216279"
+                  class="icon"
+                  viewBox="0 0 1025 1024"
+                  version="1.1"
+                  xmlns="http://www.w3.org/2000/svg"
+                  p-id="5181"
+                  width="16"
+                  height="16"
+                >
+                  <path
+                    d="M582.352706 568.885667c-3.173009-1.033003-23.208068-10.067029-10.688031-48.126141l-0.173001 0c32.628096-33.602098 57.568169-87.703257 57.568169-140.945413 0-81.88124-54.45416-124.788366-117.727345-124.788366-63.311185 0-117.455344 42.908126-117.455344 124.788366 0 53.458157 24.803073 107.775316 57.627169 141.295414 12.792037 33.563098-10.08603 46.021135-14.873044 47.77614-66.271194 23.96307-144.009422 67.648198-144.009422 110.771325l0 16.157047c0 58.755172 113.910334 72.111211 219.332643 72.111211 105.578309 0 218.047639-13.356039 218.047639-72.111211l0-16.157047C730.001139 635.229861 651.87491 591.897734 582.352706 568.885667L582.352706 568.885667zM582.352706 568.885667"
+                    fill="#272636"
+                    p-id="5182"
+                  ></path>
+                  <path
+                    d="M511.308498 958.895809c-246.714723 0-447.417311-200.702588-447.417311-447.423311 0-246.714723 200.702588-447.417311 447.417311-447.417311 246.721723 0 447.423311 200.702588 447.423311 447.417311C958.731809 758.194221 758.029221 958.895809 511.308498 958.895809L511.308498 958.895809zM511.308498 128.259376c-211.307619 0-383.213123 171.905504-383.213123 383.213123 0 211.279619 171.905504 383.219123 383.213123 383.219123 211.279619 0 383.219123-171.939504 383.219123-383.219123C894.527621 300.165879 722.588117 128.259376 511.308498 128.259376L511.308498 128.259376zM511.308498 128.259376"
+                    fill="#272636"
+                    p-id="5183"
+                  ></path>
+                </svg>
+                玩家{{ index + 1 }}：
+              </p>
+              <input
+                class="name_input"
+                type="text"
+                v-model="nameList[index]"
+                placeholder="请输入玩家姓名"
+              />
+            </div>
+          </div>
+          <div class="start_group_btns">
+            <div class="start_group_btn" @click="startGroup">开始分组</div>
+          </div>
+        </div>
+        <!-- 分组结果显示区域 -->
+        <div v-if="groupList.length" class="group_dom">
+          <div
+            v-for="(group, groupIndex) in groupList"
+            :key="groupIndex"
+            class="group_container"
+          >
+            <p class="group_title">第{{groupIndex+1}}组</p>
+            <div
+              v-for="(player, playerIndex) in group"
+              :key="playerIndex"
+              class="group_item"
+              :style="{color:colorList[playerIndex%colorList.length]}"
+            >
+              参赛者{{playerIndex+1}}：{{titleArr[Math.floor(Math.random() *
+              19)]}} —— {{ player||'神秘人' }}
+            </div>
+          </div>
+        </div>
+        <div v-else class="des">
+          <p class="des_content">1.（可选）点击配置，输入修改配置属性</p>
+          <p class="des_content">2.输入参赛玩家</p>
+          <p class="des_content">3.点击分组</p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // 创建一个Vue实例
+      var app = new Vue({
+        el: "#app",
+        data: {
+          showConfig: false,
+          gameTitle: "尊敬的摩托罗拉车主杯第一届金铲铲鲁国管水友大赛",
+          groupNum: 2,
+          groupSize: 8,
+          nameList: [],
+          groupList: [], // 用于存储分组后的结果
+          titleArr: [
+            "派大星的海洋裤",
+            "老衲我不用飘柔",
+            "被窝探险家",
+            "大脚萝莉",
+            "性感萝莉罗鹏鹏",
+            "东方老赢",
+            "全村希望",
+            "红发墨镜嬢嬢",
+            "集训不翘课",
+            "每日不断签",
+            "静静每日零点前睡觉",
+            "你的祖宗上线了",
+            "卖萌失败",
+            "抠脚小仙女儿",
+            "病娇野女",
+            "少女心狙击手",
+            "可萌可猛",
+            "掏粪少年",
+          ],
+          colorList: [
+            "#000000", // (纯黑色)
+            "#FFFFFF", // (纯白色)
+            "#1E90FF", // (亮蓝色)
+            "#FF6347", // (番茄红)
+            "#4682B4", // (钢蓝色)
+            "darkblue", // (金色)
+            "#8A2BE2", // (蓝紫色)
+            "#FF4500", // (鲜橙色)
+            "#DA70D6", // (粉红紫色)
+            "#00CED1", // (青蓝色)
+            "#FF1493", // (粉红玫瑰色)
+            "#00BFFF", // (深天蓝色)
+            "#B8860B", // (暗金黄色)
+            "#A9A9A9", // (暗灰色)
+            "#00008B", // (暗蓝色)
+            "#8B008B", // (暗紫色)
+            "#8FBC8F", // (浅青绿色)
+            "#FFA07A", // (浅鲑鱼色)
+            "#FA8072", // (浅珊瑚色)
+            "#20B2AA", // (浅海绿色)
+          ],
+        },
+        beforeMounted() {
+          this.groupList = new Array(this.groupNum * this.groupSize).fill("");
+        },
+        methods: {
+          startGroup() {
+            // 分组逻辑
+            this.groupList = [];
+            function shuffleArray(array) {
+              for (let i = array.length - 1; i > 0; i--) {
+                // 生成一个 0 到 i 之间的随机整数
+                const j = Math.floor(Math.random() * (i + 1));
+                // 交换 array[i] 和 array[j]
+                [array[i], array[j]] = [array[j], array[i]];
+              }
+              return array;
+            }
+            let arr = shuffleArray(this.nameList);
+            for (let i = 0; i < this.groupNum; i++) {
+              const start = i * this.groupSize;
+              const end = start + this.groupSize;
+              this.groupList.push(arr.slice(start, end));
+            }
+
+            console.log(this.groupList);
+          },
+        },
+      });
+    </script>
+    <style>
+      #app {
+        background-image: url("./bg.png");
+        width: 100%;
+        min-height: 98vh;
+      }
+      p {
+        margin: 0;
+      }
+      .game_title {
+        text-align: center;
+        font-size: 30px;
+        font-weight: 800;
+        padding: 40px 0;
+        animation: glow 1s infinite; /* 动画持续2秒并无限循环 */
+      }
+
+      @keyframes glow {
+        0% {
+          text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #f368f3,
+            0 0 30px #f368f3, 0 0 40px #f368f3, 0 0 50px #f368f3,
+            0 0 60px #f368f3;
+        }
+        50% {
+          text-shadow: 0 0 10px #fff, 0 0 20px #f368f3, 0 0 30px #f368f3,
+            0 0 40px #f368f3, 0 0 50px #f368f3, 0 0 60px #f368f3,
+            0 0 70px #f368f3;
+        }
+        100% {
+          text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #f368f3,
+            0 0 30px #f368f3, 0 0 40px #f368f3, 0 0 50px #f368f3,
+            0 0 60px #f368f3;
+        }
+      }
+
+      .game_content {
+        margin: 10px 20px;
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 20px;
+        min-height: 80%;
+        padding-bottom: 50px;
+      }
+      .config_btn {
+        text-align: end;
+        margin: 10px;
+        padding: 10px;
+      }
+      .config_content {
+        gap: 20px;
+        justify-content: center;
+        margin: 10px 0px;
+        background: lightcyan;
+        padding: 30px;
+        display: flex;
+      }
+      .input_dom {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0 10px;
+        justify-content: center;
+      }
+      .player_inputs {
+        display: flex;
+        margin: 10px 0;
+      }
+      .input_label {
+        width: 6em;
+        text-align: right;
+        font-size: 16px;
+        font-weight: 600;
+      }
+      .start_group_btns {
+        text-align: center;
+        display: flex;
+        justify-content: center;
+      }
+      .start_group_btn {
+        width: 8em;
+        border: 1px solid #f368f3;
+        line-height: 30px;
+        margin: 20px 0;
+        font-size: 20px;
+        height: 32px;
+        border-radius: 5px;
+      }
+      .start_group_btn:hover {
+        cursor: pointer;
+        background-color: #f368f3;
+        color: white;
+        font-weight: 600;
+        transition: all 0.3s;
+      }
+      .name_input {
+        border: 1px dotted #f368f3;
+        height: 19px;
+      }
+      .group_dom {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 40px;
+      }
+      .group_container {
+        min-width: 300px;
+        text-align: center;
+      }
+      .group_title {
+        font-weight: 600;
+        height: 36px;
+        line-height: 36px;
+        background: pink;
+      }
+      .des {
+        width: 50%;
+        margin: auto;
+        text-align: center;
+        /* line-height: 20px; */
+      }
+      .des_content {
+        line-height: 30px;
+        color: #999;
+      }
+      .group_item {
+        background: wheat;
+        text-align: left;
+      }
+    </style>
+  </body>
+</html>
